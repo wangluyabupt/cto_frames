@@ -81,7 +81,7 @@ def valify(loc, shape):
 # -*- coding:UTF-8 -*-
 import os
 import sys
-print('sys.path:',sys.path)
+# print('sys.path:',sys.path)
 import cv2
 import numpy as np
 # import cv2
@@ -112,8 +112,7 @@ OUT_MOVED_ROOT = os.path.join(ROOT, 'moved')
 
 bin_dir = os.path.join(ROOT, 'bin')
 bin_list= os.listdir(bin_dir)
-print('bin_list:',ROOT)
-# assert len(bin_list) == 2, print('The num of bin imgs is not 2!',bin_list)
+assert len(bin_list) == 2, print('The num of bin imgs is not 2!',bin_list)
 
 bin_ext = bin_list[0].split('.')[-1]
 bin_path1 = os.path.join(bin_dir, bin_list[0])#bin_list[0]='root_result_dcm_31.png'
@@ -187,10 +186,10 @@ cv2.imwrite(os.path.join(OUT_MOVED_ROOT,id1), img1)
 cv2.imwrite(os.path.join(OUT_MOVED_ROOT,id2), moved_img2)
 
 mix_img = cv2.addWeighted(img1, 0.5, moved_img2, 0.5, 0)
-print('id:', id1, id2, f'iou:{iou:.4f}', f'offset:{off_h:.2f},{off_w:.2f}')
+# print('id:', id1, id2, f'iou:{iou:.4f}', f'offset:{off_h:.2f},{off_w:.2f}')
 out_img_path = os.path.join(OUT_ROOT, str(id1)+'-'+str(id2)+'.png')
 cv2.imwrite(out_img_path, mix_img)
-print(out_img_path, 'done!')
+# print(out_img_path, 'done!')
 
 
 

@@ -4,6 +4,7 @@ import os
 import numpy as np
 from PIL import Image
 from matplotlib import pyplot
+from tqdm import tqdm
 # from lib.findroot import *
 # from ipdb import set_trace
 import cv2
@@ -27,11 +28,11 @@ from registration_tmp.extractCenterline.lib.findroot import BinarySegment, FindR
 
 # print(os.getcwd())
 
-SRC_ROOT0 = r'/home/wly/Documents/cto_frames/registration_tmp/registrationV1/test1118/merged'
+SRC_ROOT0 = r'/home/DataBase4/cto_gan_data/RAO_CAU/merged'
 dicoms_list = os.listdir(SRC_ROOT0)
-print(dicoms_list)
+# print(dicoms_list)
 
-'''here'''
+'''here1'''
 # seg_cls = BinarySegment()
 
 
@@ -50,16 +51,18 @@ for dicomj in dicoms_list:
     print(dicomi)
 
     frames_list = os.listdir(dicomi)
-    for src_path in frames_list:
+    pbar=tqdm(frames_list)
+    for src_path in pbar:
+        pbar.set_description("Processing %s" % src_path)
         if not src_path.endswith('.jpg') and not src_path.endswith('.dcm'):
             src_path = os.path.join(dicomi, src_path)
             # print(src_path)
             # cmd = f"python src2tree.py {src_path}"
             # os.system(cmd)
-
+            '''here2'''
             cmd = f"python align_bin1208.py {src_path}"
             os.system(cmd)
-
+            '''here1'''
             # OUT_ROOT = os.path.join(src_path, 'res')
             # if os.path.exists(OUT_ROOT):
             #     for cfile in os.listdir(OUT_ROOT):
