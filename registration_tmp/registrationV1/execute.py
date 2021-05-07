@@ -34,7 +34,7 @@ dicoms_list = os.listdir(SRC_ROOT0)
 # print(dicoms_list)
 
 '''here1'''
-seg_cls = BinarySegment()
+# seg_cls = BinarySegment()
 
 
 def get_root(image, img_name, findroot_cls):
@@ -66,10 +66,10 @@ for dicomj in dicoms_list:
             # cmd = f"python src2tree.py {src_path}"
             # os.system(cmd)
             '''here2'''
-            # cmd = f"python align_bin1208.py {src_path}"
-            # os.system(cmd)
+            cmd = f"python align_bin1208.py {src_path}"
+            os.system(cmd)
             '''here1'''
-            
+            '''
             OUT_ROOT = os.path.join(src_path, 'res')
             if os.path.exists(OUT_ROOT):
                 for cfile in os.listdir(OUT_ROOT):
@@ -127,6 +127,7 @@ for dicomj in dicoms_list:
                     root_f.writelines(img_name + ' ' + str(root) + '\n')
                     # print (img_name,root)
             print('done!')
+            '''
             
 
 # SRC_ROOT = r'./test1118'

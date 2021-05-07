@@ -94,11 +94,12 @@ from ipdb import set_trace
 # 4. move the src, mix the two pictures into one, save
 # info: modify the vid_name and state below
 
-ROOT = sys.argv[1]
-# ROOT = "/home/wly/Documents/cto_frames/registration_tmp/registrationV1/test1118/dicoms/dicom14/frames5"
+# ROOT = sys.argv[1]
+ROOT = "/home/DataBase4/cto_gan_data3/LAO_test/merged/dicom1/frames0"
 
 OUT_ROOT = os.path.join(ROOT, 'res')
 OUT_MOVED_ROOT = os.path.join(ROOT, 'moved')
+OUT_MOVED_BINDEG_ROOT = os.path.join(ROOT, 'moved_bin_seg')
 # if os.path.exists(OUT_ROOT):
 #     for cfile in os.listdir(OUT_ROOT):
 #         os.remove(cfile)
@@ -139,12 +140,15 @@ else:
     img_path2 = os.path.join(img_dir,img_list[0])
     img_path1 = os.path.join(img_dir,img_list[1])
 
-# if (img_list[0].split('.')[-2].split('_')[-1] == bin_list[0].split('.')[-2].split('_')[-1]):
-#     img_path1 = os.path.join(img_dir,img_list[0])
-#     img_path2 = os.path.join(img_dir,img_list[1])
-# else:
-#     img_path2 = os.path.join(img_dir,img_list[0])
-#     img_path1 = os.path.join(img_dir,img_list[1])
+bin_seg_dir = os.path.join(ROOT, 'bin_seg')
+img_bin_seg_list=os.listdir(bin_seg_dir)
+assert len(img_bin_seg_list) == 2, 'The num of src imgs is not 2!'
+if img_bin_seg_list[0].split('.')[-2].split('_')[-1] ==img_bin_seg_list[0].split('.')[-2].split('_')[-1]:
+    img_path3 = os.path.join(bin_seg_dir,img_bin_seg_list[0])
+    img_path4 = os.path.join(bin_seg_dir,img_bin_seg_list[1])
+else:
+    img_path3 = os.path.join(bin_seg_dir,img_bin_seg_list[0])
+    img_path4 = os.path.join(bin_seg_dir,img_bin_seg_list[1])
 
 if not os.path.exists(OUT_ROOT):
     os.makedirs(OUT_ROOT)
@@ -184,6 +188,18 @@ if not os.path.exists(OUT_MOVED_ROOT):
     os.makedirs(OUT_MOVED_ROOT)
 cv2.imwrite(os.path.join(OUT_MOVED_ROOT,id1), img1)
 cv2.imwrite(os.path.join(OUT_MOVED_ROOT,id2), moved_img2)
+
+
+img3 = cv2.cvtColor(cv2.imread(img_path3), cv2.COLOR_BGR2GRAY)
+img4 = cv2.cvtColor(cv2.imread(img_path4), cv2.COLOR_BGR2GRAY)
+moved_img4 = cv2.warpAffine(img4, M, img4.shape, borderValue=[255,255,255])
+id3 = os.path.basename(img_path3)
+id4 = os.path.basename(img_path4)
+#add moved bin seg
+if not os.path.exists(OUT_MOVED_BINDEG_ROOT):
+    os.makedirs(OUT_MOVED_BINDEG_ROOT)
+cv2.imwrite(os.path.join(OUT_MOVED_BINDEG_ROOT,id3), img3)
+cv2.imwrite(os.path.join(OUT_MOVED_BINDEG_ROOT,id4), moved_img4)
 
 mix_img = cv2.addWeighted(img1, 0.5, moved_img2, 0.5, 0)
 # print('id:', id1, id2, f'iou:{iou:.4f}', f'offset:{off_h:.2f},{off_w:.2f}')
