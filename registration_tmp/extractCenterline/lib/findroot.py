@@ -32,6 +32,7 @@ class BinarySegment:
         ])
 
         model_path = "./ckpt/{}.pth".format("daoguanzuozhuganpsp101")
+        model_path='/home/wly/Documents/cto_frames/registration_tmp/registrationV1/ckpt/daoguanzuozhuganpsp101.pth'
         # model_path = "./model/{}.pth".format("daoguanzuozhuganpsp101")
 
         # define CNN network
@@ -229,14 +230,15 @@ class FindRoot:
 
         # --------------0517:draw picture--------------
         frame = cv2.cvtColor(image,cv2.COLOR_GRAY2BGR)
+        _, frame = cv2.threshold(frame, 10, 255, cv2.THRESH_BINARY) # add
         # frame = cv2.circle(frame,(zxz[1],zxz[0]),3,(0,0,255))
         # -----------1119---------
         tmp_loc = np.where(frame==255)
         catheter_img = np.zeros((frame.shape))
         catheter_img[tmp_loc] = 255
         # ---------1119 over------
-        cv2.imwrite(os.path.join(OUT_ROOT,'root_result_'+img_name),catheter_img)
-        # cv2.imwrite(os.path.join(OUT_ROOT,'root_result_'+img_name),frame)
+        # cv2.imwrite(os.path.join(OUT_ROOT,'root_result_'+img_name),catheter_img)
+        cv2.imwrite(os.path.join(OUT_ROOT+'_seg','root_result_'+img_name),frame) # add
         # cv2.imwrite('./0517result/root_result.png',frame)
 
         # frame = cv2.circle(image, (zxz[1], zxz[0]), 5, (0, 0, 255), -1)
@@ -249,6 +251,27 @@ class FindRoot:
 
 
 if __name__ == "__main__":
-    image = cv2.imread("./result/result.png", False)
+    import os 
+    os.chdir('/home/DataBase4/cto_gan_data3/LAO_test/daoguan')
+    print(os.getcwd())
+    seg_cls = BinarySegment()
+
+    # img_path="./result/result.png"
+    img_path="/home/DataBase4/cto_gan_data3/LAO_test/daoguan/LI_ZHAO_NIAN159IMG-0001-00001.dcm_1.jpg"
+    img_path="/home/DataBase4/cto_gan_data3/LAO_test/daoguan/LI_ZHAO_NIAN159IMG-0001-00001.dcm_39.jpg"
+    # image = cv2.imread(img_path,0)
+
+    img = np.array(Image.open(img_path))
+    if len(img.shape) > 2 and img.shape[-1] == 3:
+        png_img = img[:, :, 0]
+    else:
+        png_img = img
+    image = cv2.cvtColor(png_img, cv2.COLOR_GRAY2BGR)
+    if isinstance(image, np.ndarray):
+        image = Image.fromarray(image)
+    
+    image_result = seg_cls.inference(image)
+    img_name = os.path.basename(img_path).split('.')[1:]
+
     cls = FindRoot()
-    cls.get_root(image)
+    cls.get_root(image_result,'dcm39.jpg')

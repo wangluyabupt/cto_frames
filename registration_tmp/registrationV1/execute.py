@@ -29,12 +29,12 @@ from registration_tmp.extractCenterline.lib.findroot import BinarySegment, FindR
 
 # print(os.getcwd())
 
-SRC_ROOT0 = r'/home/DataBase4/cto_gan_data3/LAO/merged'
+SRC_ROOT0 = r'/home/DataBase4/cto_gan_data3/LAO_test/merged'
 dicoms_list = os.listdir(SRC_ROOT0)
 # print(dicoms_list)
 
 '''here1'''
-# seg_cls = BinarySegment()
+seg_cls = BinarySegment()
 
 
 def get_root(image, img_name, findroot_cls):
@@ -50,7 +50,8 @@ def get_root(image, img_name, findroot_cls):
 for dicomj in dicoms_list:
     dicomi = os.path.join(SRC_ROOT0, dicomj)
     j=str(dicomj.split('m')[-1])
-    dicom_li=['1', '2', '3', '5', '6', '7', '8', '9', '11', '16', '17', '18', '19', '21', '23', '24', '25', '26', '27', '28', '29', '32', '33', '35', '38', '39', '42', '43', '44', '45', '49', '51', '52', '53', '54', '57', '58', '59', '60', '62', '63', '64', '67', '68', '72', '73', '78', '80', '81', '83', '84', '85', '86', '87', '88', '91', '92', '94', '96', '98', '99', '100']
+    # dicom_li=['1', '2', '3', '5', '6', '7', '8', '9', '11', '16', '17', '18', '19', '21', '23', '24', '25', '26', '27', '28', '29', '32', '33', '35', '38', '39', '42', '43', '44', '45', '49', '51', '52', '53', '54', '57', '58', '59', '60', '62', '63', '64', '67', '68', '72', '73', '78', '80', '81', '83', '84', '85', '86', '87', '88', '91', '92', '94', '96', '98', '99', '100']
+    dicom_li=['1','2']
     if j not in dicom_li:
         continue
     print(dicomi)
@@ -65,10 +66,10 @@ for dicomj in dicoms_list:
             # cmd = f"python src2tree.py {src_path}"
             # os.system(cmd)
             '''here2'''
-            cmd = f"python align_bin1208.py {src_path}"
-            os.system(cmd)
+            # cmd = f"python align_bin1208.py {src_path}"
+            # os.system(cmd)
             '''here1'''
-            '''
+            
             OUT_ROOT = os.path.join(src_path, 'res')
             if os.path.exists(OUT_ROOT):
                 for cfile in os.listdir(OUT_ROOT):
@@ -92,6 +93,8 @@ for dicomj in dicoms_list:
             RES_LocateRoot = os.path.join(res_dir, 'bin')
             if not os.path.exists(RES_LocateRoot):
                 os.makedirs(RES_LocateRoot)
+            if not os.path.exists(RES_LocateRoot+'_seg'):
+                os.makedirs(RES_LocateRoot+'_seg')
 
             print('locate root...')
             IMG_ROOT = src_path_ROOT
@@ -124,7 +127,7 @@ for dicomj in dicoms_list:
                     root_f.writelines(img_name + ' ' + str(root) + '\n')
                     # print (img_name,root)
             print('done!')
-            '''
+            
 
 # SRC_ROOT = r'./test1118'
 # cmd = f"python src2tree.py {SRC_ROOT}"
