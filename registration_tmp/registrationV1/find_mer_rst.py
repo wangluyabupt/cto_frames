@@ -2,17 +2,17 @@ import os
 import cv2
 import shutil
 from random import random
-def show_mer_rst(new_merged_path,find_mer_rst_path):
+def show_mer_rst(new_merged_path,find_mer_rst_path,dicom_li):
     _files = []
     rootdir = new_merged_path
     list_file = os.listdir(rootdir)
     print(list_file)
 
-    e=0
-    for i in range(0, len(list_file)):
+    e_num=0
+    for i in range(0, len(dicom_li)):
         
         # 构造路径
-        err=list_file[i]
+        err='dicom'+dicom_li[i]
         print('dicomi:',err)
         dicomi = os.path.join(rootdir,err )
         find_mer_rst_path_each_dicom=os.path.join(find_mer_rst_path,err)
@@ -36,25 +36,30 @@ def show_mer_rst(new_merged_path,find_mer_rst_path):
                     mer_frames_file=os.listdir(in_frames_j_res)[0]
                     img = cv2.imread(os.path.join(in_frames_j_res,mer_frames_file))
                     cv2.imwrite(os.path.join(find_mer_rst_path_each_dicom,mer_frames_file), img)
-        except:
-            e+=1
-    print('e:',e)
+        except Exception as e :
+            e_num+=1
+            print('e:',e)
+    print('e_num :',e_num)
 
 if __name__=='__main__':
-    mer_rst_path='/home/DataBase4/cto_gan_data/RAO_CAU/merged'
-    # find_mer_rst_path='/home/DataBase4/cto_gan_data/RAO_CAU/find_merged_result'
+    # mer_rst_path='/home/DataBase4/cto_gan_data3/LAO/merged'
+    # find_mer_rst_path='/home/DataBase4/cto_gan_data3/LAO/find_merged_result'
+    # dicom_li=['1', '2', '3', '5', '6', '7', '8', '9', '11', '16', '17', '18', '19', '21', '23', '24', '25', '26', '27', '28', '29', '32', '33', '35', '38', '39', '42', '43', '44', '45', '49', '51', '52', '53', '54', '57', '58', '59', '60', '62', '63', '64', '67', '68', '72', '73', '78', '80', '81', '83', '84', '85', '86', '87', '88', '91', '92', '94', '96', '98', '99', '100']
+
     # if not os.path.exists(find_mer_rst_path):
     #     os.makedirs(find_mer_rst_path)
-    # show_mer_rst(mer_rst_path,find_mer_rst_path)
+    # show_mer_rst(mer_rst_path,find_mer_rst_path,dicom_li)
 
     '''plot_mer_rst.py'''
 
 
     '''person choose paires index'''
+    mer_rst_path='/home/DataBase4/cto_gan_data3/LAO/merged'
     #其实可以多选择
-    with open('/home/DataBase4/cto_gan_data/RAO_CAU/case100.csv') as fr:
-        A_path='/home/DataBase4/cto_gan_data/RAO_CAU/merged_paires/A'
-        B_path='/home/DataBase4/cto_gan_data/RAO_CAU/merged_paires/B'
+    with open('/home/DataBase4/wly/pix2pixHD/csv/data_pair_0428.csv') as fr:
+        next(fr)
+        A_path='/home/DataBase4/wly/pix2pixHD/datasets/A'
+        B_path='/home/DataBase4/wly/pix2pixHD/datasets/B'
         for line in fr:
             line=line.strip('\n')
             li=line.split(',')
@@ -84,9 +89,9 @@ if __name__=='__main__':
                     png_path=os.path.join(frames_paires_path,png)
 
                     if not os.path.exists(A):
-                        os.mkdir(A)
+                        os.makedirs(A)
                     if not os.path.exists(B):
-                        os.mkdir(B)
+                        os.makedirs(B)
                     if png_index==format_f:
                         #long A
                         png_format_path=png_path
@@ -104,9 +109,7 @@ if __name__=='__main__':
                     print(frames_paires_path)
 
            
-                    
-
-
+                
 
     '''get paries moved rst to new path for pix2pix train'''
     
