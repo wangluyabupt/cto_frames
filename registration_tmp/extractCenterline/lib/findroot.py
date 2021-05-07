@@ -230,15 +230,15 @@ class FindRoot:
 
         # --------------0517:draw picture--------------
         frame = cv2.cvtColor(image,cv2.COLOR_GRAY2BGR)
-        _, frame = cv2.threshold(frame, 10, 255, cv2.THRESH_BINARY) # add
+        _, frame2 = cv2.threshold(frame, 10, 255, cv2.THRESH_BINARY) # add
         # frame = cv2.circle(frame,(zxz[1],zxz[0]),3,(0,0,255))
         # -----------1119---------
         tmp_loc = np.where(frame==255)
         catheter_img = np.zeros((frame.shape))
         catheter_img[tmp_loc] = 255
         # ---------1119 over------
-        # cv2.imwrite(os.path.join(OUT_ROOT,'root_result_'+img_name),catheter_img)
-        cv2.imwrite(os.path.join(OUT_ROOT+'_seg','root_result_'+img_name),frame) # add
+        cv2.imwrite(os.path.join(OUT_ROOT,'root_result_'+img_name),catheter_img)
+        cv2.imwrite(os.path.join(OUT_ROOT+'_seg','root_result_'+img_name),frame2) # add
         # cv2.imwrite('./0517result/root_result.png',frame)
 
         # frame = cv2.circle(image, (zxz[1], zxz[0]), 5, (0, 0, 255), -1)
@@ -258,7 +258,7 @@ if __name__ == "__main__":
 
     # img_path="./result/result.png"
     img_path="/home/DataBase4/cto_gan_data3/LAO_test/daoguan/LI_ZHAO_NIAN159IMG-0001-00001.dcm_1.jpg"
-    img_path="/home/DataBase4/cto_gan_data3/LAO_test/daoguan/LI_ZHAO_NIAN159IMG-0001-00001.dcm_39.jpg"
+    img_path="/home/DataBase4/cto_gan_data3/LAO_test/merged/dicom1/frames2/LI_ZHAO_NIAN159IMG-0001-00001.dcm_39.jpg"
     # image = cv2.imread(img_path,0)
 
     img = np.array(Image.open(img_path))

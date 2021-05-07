@@ -94,8 +94,8 @@ from ipdb import set_trace
 # 4. move the src, mix the two pictures into one, save
 # info: modify the vid_name and state below
 
-# ROOT = sys.argv[1]
-ROOT = "/home/DataBase4/cto_gan_data3/LAO_test/merged/dicom1/frames0"
+ROOT = sys.argv[1]
+# ROOT = "/home/DataBase4/cto_gan_data3/LAO_test/merged/dicom1/frames0"
 
 OUT_ROOT = os.path.join(ROOT, 'res')
 OUT_MOVED_ROOT = os.path.join(ROOT, 'moved')
